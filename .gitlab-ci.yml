@@ -1,0 +1,17 @@
+stages:
+  - deploy
+
+before_script:
+  - docker login -u=hdumok@163.com -p=tpjh2019 registry.cn-hangzhou.aliyuncs.com
+nature-manage:
+  stage: deploy
+  tags:
+    - nature-manage
+  only:
+    - master
+  script:
+    - docker build --rm -f "Dockerfile" -t registry.cn-hangzhou.aliyuncs.com/hdumok/nature-manage:latest .
+    - docker ps -aq --filter name=nature-manage | awk '{print $1}' | xargs --no-run-if-empty docker stop
+    - docker run --rm --name nature-manage -d -v $HOME/manage:/usr/src/app/dist registry.cn-hangzhou.aliyuncs.com/hdumok/nature-manage:latest
+    - docker push registry.cn-hangzhou.aliyuncs.com/hdumok/nature-manage:latest
+    - docker rmi $(docker images --filter "dangling=true" -q --no-trunc)

@@ -1,0 +1,15 @@
+Dockerfile
+.dockerignore
+.git
+.gitignore
+.DS_Store
+.gitlab-ci.yml
+.vscode
+.idea
+.prettierignore
+.prettierrc
+.travis.yml
+appveyor.yml
+README.md
+node_modules
+LICENSE
